@@ -1,6 +1,10 @@
 const express = require("express");
+const bodyParser = require("body-Parser");
 
 const app = express();
+
+// Necessary unless we want to paste this bodyParser line on every route
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send(`
@@ -15,10 +19,29 @@ app.get("/", (req, res) => {
   `);
 });
 
+// Middleware to parse form data (add 'bodyParser' before 'req,res')
+// const bodyParser = (req, res, next) => {
+//   if (req.method === "POST") {
+//     req.on("data", (data) => {
+//       const parsed = data.toString("utf8").split("&");
+//       const formData = {};
+//       for (let pair of parsed) {
+//         const [key, value] = pair.split("=");
+//         formData[key] = value;
+//       }
+//       req.body = formData;
+//       next();
+//     });
+//   } else {
+//     next();
+//   }
+// };
+
 app.post("/", (req, res) => {
+  console.log(req.body);
   res.send("Account created!");
 });
 
 app.listen(3333, () => {
-  console.log(">>> Serving...");
+  console.log(">>> Listening on port 3333...");
 });
