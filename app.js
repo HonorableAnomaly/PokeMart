@@ -9,12 +9,12 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cookieSession({
-    keys: ["thisisahorriblekey"],
+    keys: ["thisisahorriblekey"]
   })
 );
 
 app.use(authRouter);
 
 app.listen(3333, () => {
-  console.log(">>> Listening on port 3333...");
+  console.log(">>> Listening on port 3333... <<<");
 });

@@ -1,19 +1,20 @@
 const express = require("express");
+const { validationResult, check } = require("express-validator");
 const usersRepo = require("../../repositories/users");
+const signupTemplate = require("../../views/admin/auth/signup");
+const signinTemplate = require("../../views/admin/auth/signin");
+const {
+  requireEmail,
+  requirePassword,
+  requirePasswordConfirmation,
+  requireEmailExists,
+  requireValidPasswordForUser
+} = require("./validators");
 
 const router = express.Router();
 
 router.get("/signup", (req, res) => {
-  res.send(`
-    <div>
-      <form method="POST">
-          <input name="email" placeholder="email"/>
-          <input name="password" placeholder="password"/>
-          <input name="password confirmation" placeholder="password confirmation"/>
-          <button>Sign Up!</button>
-      </form>
-    </div>
-    `);
+  res.send(signupTemplate({ req }));
 });
 
 // Middleware to parse form data (add 'bodyParser' before 'req,res')
@@ -34,43 +35,38 @@ router.get("/signup", (req, res) => {
 //   }
 // };
 
-router.post("/signup", async (req, res) => {
-  const { email, password, passwordConfirmation } = req.body;
-  const existingUser = await usersRepo.getOneBy({ email });
-  if (existingUser) {
-    return res.send("Email in use");
-  }
-  // if (password !== passwordConfirmation) {
-  //   return res.send("Passwords must match");
-  // }
-  const user = await usersRepo.create({ email, password });
-  req.session.userId = user;
+router.post("/signup", [requireEmail, requirePassword, requirePasswordConfirmation], async (req, res) => {
+  const errors = validationResult(req);
+  console.log(errors);
 
-  res.redirect("/signin");
+  if (errors.isEmpty) {
+    return res.send(signupTemplate({ req, errors }));
+  }
+
+  const { email, password, passwordConfirmation } = req.body;
+  const user = await usersRepo.create({ email, password });
+
+  req.session.userId = user.id;
+
+  res.send("Account created!");
 });
 
 router.get("/signin", (req, res) => {
-  res.send(`
-    <div>
-      <form method="POST">
-          <input name="email" placeholder="email"/>
-          <input name="password" placeholder="password"/>
-          <button>Sign In</button>
-      </form>
-    </div>
-    `);
+  res.send(signinTemplate({}));
 });
 
-router.post("/signin", async (req, res) => {
-  const { email, password, id } = req.body;
-  const user = await usersRepo.getOneBy({ email });
-  const validPassword = await usersRepo.comparePasswords(user.password, password);
+router.post("/signin", [requireEmailExists, requireValidPasswordForUser], async (req, res) => {
+  const errors = validationResult(req);
+  console.log(errors);
 
-  if (!user || !validPassword) {
-    return res.send("Invalid email or password");
+  if (errors.isEmpty) {
+    return res.send(signinTemplate({ errors }));
   }
 
-  req.session.userId = id;
+  const { email } = req.body;
+  const user = await usersRepo.getOneBy({ email });
+
+  req.session.userId = user.id;
 
   res.send("You are signed in!");
 });
