@@ -18,7 +18,7 @@ module.exports = ({ content }) => {
               <div class="container navbar-container">
                 <div>
                   <a href="/admin/products">
-                    <h3 class="title">Admin Panel</h3>
+                    <h3 class="title"><img class="shop-logo" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/c861d306-8f42-4864-ab2e-61a271518c8a/df6euho-43e72823-7377-4bd3-9b60-ef1d7bd05966.png/v1/fill/w_1280,h_1281,strp/gold_ball_by_ace_zeroartic_df6euho-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTI4MSIsInBhdGgiOiJcL2ZcL2M4NjFkMzA2LThmNDItNDg2NC1hYjJlLTYxYTI3MTUxOGM4YVwvZGY2ZXVoby00M2U3MjgyMy03Mzc3LTRiZDMtOWI2MC1lZjFkN2JkMDU5NjYucG5nIiwid2lkdGgiOiI8PTEyODAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.0sNTQIule0HQkZQdpZ-j852VnnsDYJW9umNBZnzCGog" /> Admin Panel</h3>
                   </a>
                 </div>
                 <div class="navbar-item">

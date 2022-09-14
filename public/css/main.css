@@ -71,6 +71,10 @@ body {
   width: 100%;
 }
 
+.shop-logo {
+  width: 28px;
+}
+
 .admin > div.container {
   margin: 40px 10%;
 }
